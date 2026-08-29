@@ -35,7 +35,6 @@ class UsersTable
             ->filters([])
             ->recordActions([
                 EditAction::make()
-                    ->modalWidth('md')
                     ->slideOver(),
                 DeleteAction::make(),
                 Action::make('resetPassword')
