@@ -26,6 +26,10 @@ class Settings extends SettingsPage
 
     protected static ?int $navigationSort = 100;
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasPermissionTo('View:Settings') ?? false;
+    }
 
     protected static string $settings = GeneralSettings::class;
 
