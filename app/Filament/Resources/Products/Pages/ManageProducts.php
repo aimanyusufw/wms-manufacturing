@@ -14,6 +14,7 @@ class ManageProducts extends ManageRecords
     {
         return [
             CreateAction::make()
+                ->modalWidth("6xl")
                 ->slideOver(),
         ];
     }

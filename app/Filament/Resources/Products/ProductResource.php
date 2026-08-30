@@ -6,20 +6,16 @@ use App\Enums\ProductType;
 use App\Filament\Resources\Products\Pages\ManageProducts;
 use App\Models\Product;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -115,6 +111,33 @@ class ProductResource extends Resource
                     ->label('Is Active')
                     ->default(true)
                     ->helperText('Deactivating hides this product from active catalog.'),
+
+                Repeater::make('uoms')
+                    ->relationship()
+                    ->schema([
+
+                        Select::make('uom_id')
+                            ->label('UOM')
+                            ->relationship('uom', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        TextInput::make('conversion_factor')
+                            ->label('Conversion')
+                            ->numeric()
+                            ->required()
+                            ->helperText(
+                                'Jumlah Base UOM dalam 1 UOM'
+                            ),
+                        Toggle::make('is_purchase_uom')
+                            ->label('Purchase UOM'),
+
+                        Toggle::make('is_sales_uom')
+                            ->label('Sales UOM'),
+
+                    ])
+                    ->columnSpanFull()
             ]);
     }
 
