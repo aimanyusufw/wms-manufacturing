@@ -13,8 +13,10 @@
         "filament/spatie-laravel-settings-plugin": "^5.0",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
+        "parfaitementweb/filament-country-field": "^2.5",
         "rmsramos/activitylog": "^4.0",
-        "spatie/laravel-settings": "^3.9"
+        "spatie/laravel-settings": "^3.9",
+        "ysfkaya/filament-phone-input": "^4.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
