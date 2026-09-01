@@ -58,7 +58,9 @@ class DashboardPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                ActivitylogPlugin::make(),
+                ActivitylogPlugin::make()
+                    ->navigationIcon('heroicon-o-presentation-chart-bar')
+                    ->navigationGroup('Settings'),
                 FilamentShieldPlugin::make()
                     ->navigationGroup('Settings'),
                 CuratorPlugin::make()
