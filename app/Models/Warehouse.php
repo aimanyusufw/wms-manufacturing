@@ -35,16 +35,17 @@ class Warehouse extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->useLogName('product');
+            ->useLogName('warehouse');
     }
 
-    public function zones(): HasMany
+    public function locations(): HasMany
     {
-        return $this->hasMany(Zone::class, "warehouse_id");
+        return $this->hasMany(Location::class);
     }
 
-    public function bins(): HasMany
+    public function rootLocations(): HasMany
     {
-        return $this->hasMany(Bin::class, "warehouse_id");
+        return $this->hasMany(Location::class)
+            ->whereNull('parent_id');
     }
 }
