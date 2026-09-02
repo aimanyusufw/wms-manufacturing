@@ -39,6 +39,6 @@ class Customer extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->useLogName('product');
+            ->useLogName('customer');
     }
 }

@@ -39,6 +39,6 @@ class Supplier extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->useLogName('product');
+            ->useLogName('supplier');
     }
 }
