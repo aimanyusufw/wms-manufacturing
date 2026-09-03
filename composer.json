@@ -19,6 +19,7 @@
         "parfaitementweb/filament-country-field": "^2.5",
         "rmsramos/activitylog": "^4.0",
         "spatie/laravel-settings": "^3.9",
+        "wezlo/filament-approval": "^1.0",
         "ysfkaya/filament-phone-input": "^4.2"
     },
     "require-dev": {

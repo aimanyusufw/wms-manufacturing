@@ -22,6 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rmsramos\Activitylog\ActivitylogPlugin;
+use Wezlo\FilamentApproval\FilamentApprovalPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -73,6 +74,8 @@ class DashboardPanelProvider extends PanelProvider
                     ->registerNavigation(true)
                     ->curations(true)
                     ->fileSwap(true),
+                FilamentApprovalPlugin::make()
+                    ->navigationGroup("Settings")
             ])
             ->authMiddleware([
                 Authenticate::class,

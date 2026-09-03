@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c1a019dfe290f5634402d25f282a771",
+    "content-hash": "241a0e7bb069c4a1d7044662f8e624a3",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -9546,6 +9546,60 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
+        },
+        {
+            "name": "wezlo/filament-approval",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mustafakhaleddev/filament-approval.git",
+                "reference": "62101f783867968c6ec5d4c7b17f7d328dd63f84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mustafakhaleddev/filament-approval/zipball/62101f783867968c6ec5d4c7b17f7d328dd63f84",
+                "reference": "62101f783867968c6ec5d4c7b17f7d328dd63f84",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0 || ^5.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^10.0",
+                "pestphp/pest": "^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wezlo\\FilamentApproval\\FilamentApprovalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wezlo\\FilamentApproval\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Approval Workflow Engine for Filament",
+            "keywords": [
+                "approval",
+                "filament",
+                "laravel",
+                "workflow"
+            ],
+            "support": {
+                "issues": "https://github.com/mustafakhaleddev/filament-approval/issues",
+                "source": "https://github.com/mustafakhaleddev/filament-approval/tree/1.0.1"
+            },
+            "time": "2026-04-08T21:52:33+00:00"
         },
         {
             "name": "ysfkaya/filament-phone-input",
