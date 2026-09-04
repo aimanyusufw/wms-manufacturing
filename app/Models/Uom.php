@@ -45,4 +45,9 @@ class Uom extends Model
     {
         return $this->hasMany(ProductUom::class, 'uom_id');
     }
+
+    public function goodsReceiptItems(): HasMany
+    {
+        return $this->hasMany(GoodsReceiptItem::class);
+    }
 }

@@ -38,6 +38,11 @@ class Warehouse extends Model
             ->useLogName('warehouse');
     }
 
+    public function goodsReceipts(): HasMany
+    {
+        return $this->hasMany(GoodsReceipt::class);
+    }
+
     public function locations(): HasMany
     {
         return $this->hasMany(Location::class);
