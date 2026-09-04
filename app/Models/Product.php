@@ -95,4 +95,14 @@ class Product extends Model
             ->withPivot(['conversion_factor', 'is_purchase_uom', 'is_sales_uom'])
             ->withTimestamps();
     }
+
+    public function goodsReceiptItems(): HasMany
+    {
+        return $this->hasMany(GoodsReceiptItem::class);
+    }
+
+    public function lots(): HasMany
+    {
+        return $this->hasMany(Lot::class);
+    }
 }

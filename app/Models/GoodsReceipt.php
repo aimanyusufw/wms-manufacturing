@@ -2,44 +2,48 @@
 
 namespace App\Models;
 
-use App\Enums\PurchaseOrderStatus;
+use App\Enums\DocumentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Wezlo\FilamentApproval\Concerns\HasApprovals;
 
-class PurchaseOrder extends Model
+class GoodsReceipt extends Model
 {
-    use SoftDeletes, HasFactory, LogsActivity, HasApprovals;
+    use HasFactory, LogsActivity, HasApprovals;
 
-    protected $table = 'purchase_orders';
+    protected $table = 'goods_receipts';
 
     protected $fillable = [
+        'purchase_order_id',
         'supplier_id',
         'warehouse_id',
         'document_number',
-        'order_date',
-        'expected_date',
+        'receipt_date',
         'status',
-        'notes',
-        'created_by',
+        'delivery_note_number',
+        'received_by',
         'approved_by',
         'approved_at',
+        'notes',
     ];
 
     protected function casts(): array
     {
         return [
-            'order_date' => 'date',
-            'expected_date' => 'date',
-            'status' => PurchaseOrderStatus::class,
+            'receipt_date' => 'datetime',
+            'status' => DocumentStatus::class,
             'approved_at' => 'datetime',
         ];
+    }
+
+    public function purchaseOrder(): BelongsTo
+    {
+        return $this->belongsTo(PurchaseOrder::class);
     }
 
     public function supplier(): BelongsTo
@@ -52,9 +56,9 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function creator(): BelongsTo
+    public function receiver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'received_by');
     }
 
     public function approver(): BelongsTo
@@ -64,23 +68,18 @@ class PurchaseOrder extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(PurchaseOrderItem::class);
-    }
-
-    public function goodsReceipts(): HasMany
-    {
-        return $this->hasMany(GoodsReceipt::class);
+        return $this->hasMany(GoodsReceiptItem::class);
     }
 
     public function onApprovalSubmitted(): void
     {
-        $this->update(['status' => PurchaseOrderStatus::SUBMITTED]);
+        $this->update(['status' => DocumentStatus::SUBMITTED]);
     }
 
     public function onApprovalApproved(): void
     {
         $this->update([
-            'status' => PurchaseOrderStatus::APPROVED,
+            'status' => DocumentStatus::APPROVED,
             'approved_by' => Auth::id(),
             'approved_at' => now(),
         ]);
@@ -89,7 +88,7 @@ class PurchaseOrder extends Model
     public function onApprovalRejected(): void
     {
         $this->update([
-            'status' => PurchaseOrderStatus::DRAFT,
+            'status' => DocumentStatus::REJECTED,
             'approved_by' => null,
             'approved_at' => null,
         ]);
@@ -101,6 +100,6 @@ class PurchaseOrder extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->useLogName('purchase_order');
+            ->useLogName('goods_receipt');
     }
 }

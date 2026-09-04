@@ -9,6 +9,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Override;
@@ -22,6 +23,16 @@ class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasRoles, HasFactory, Notifiable, LogsActivity;
+
+    public function receivedGoodsReceipts(): HasMany
+    {
+        return $this->hasMany(GoodsReceipt::class, 'received_by');
+    }
+
+    public function approvedGoodsReceipts(): HasMany
+    {
+        return $this->hasMany(GoodsReceipt::class, 'approved_by');
+    }
 
     #[Override]
     public function canAccessPanel(Panel $panel): bool
