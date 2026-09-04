@@ -71,5 +71,4 @@ class GoodsReceiptPolicy
     {
         return $authUser->can('Reorder:GoodsReceipt');
     }
-
 }
