@@ -40,4 +40,9 @@ class Lot extends Model
     {
         return $this->hasMany(GoodsReceiptItem::class);
     }
+
+    public function qualityInspectionItems(): HasMany
+    {
+        return $this->hasMany(QualityInspectionItem::class);
+    }
 }

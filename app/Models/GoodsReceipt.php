@@ -71,6 +71,11 @@ class GoodsReceipt extends Model
         return $this->hasMany(GoodsReceiptItem::class);
     }
 
+    public function qualityInspections(): HasMany
+    {
+        return $this->hasMany(QualityInspection::class);
+    }
+
     public function onApprovalSubmitted(): void
     {
         $this->update(['status' => DocumentStatus::SUBMITTED]);

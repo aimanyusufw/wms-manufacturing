@@ -101,6 +101,11 @@ class Product extends Model
         return $this->hasMany(GoodsReceiptItem::class);
     }
 
+    public function qualityInspectionItems(): HasMany
+    {
+        return $this->hasMany(QualityInspectionItem::class);
+    }
+
     public function lots(): HasMany
     {
         return $this->hasMany(Lot::class);
