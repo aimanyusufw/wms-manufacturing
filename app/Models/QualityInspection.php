@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\DocumentStatus;
+use App\Enums\QcStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,53 +12,44 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Wezlo\FilamentApproval\Concerns\HasApprovals;
 
-class GoodsReceipt extends Model
+class QualityInspection extends Model
 {
     use HasFactory, LogsActivity, HasApprovals;
 
-    protected $table = 'goods_receipts';
+    protected $table = 'quality_inspections';
 
     protected $fillable = [
-        'purchase_order_id',
-        'supplier_id',
-        'warehouse_id',
-        'document_number',
-        'receipt_date',
+        'goods_receipt_id',
+        'production_receipt_id',
+        'inspection_number',
+        'inspection_date',
         'status',
-        'delivery_note_number',
-        'received_by',
+        'inspected_by',
         'approved_by',
-        'approved_at',
         'notes',
     ];
 
     protected function casts(): array
     {
         return [
-            'receipt_date' => 'datetime',
-            'status' => DocumentStatus::class,
-            'approved_at' => 'datetime',
+            'inspection_date' => 'datetime',
+            'status' => QcStatus::class,
         ];
     }
 
-    public function purchaseOrder(): BelongsTo
+    public function goodsReceipt(): BelongsTo
     {
-        return $this->belongsTo(PurchaseOrder::class);
+        return $this->belongsTo(GoodsReceipt::class);
     }
 
-    public function supplier(): BelongsTo
+    public function productionReceipt(): BelongsTo
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(ProductionReceipt::class);
     }
 
-    public function warehouse(): BelongsTo
+    public function inspector(): BelongsTo
     {
-        return $this->belongsTo(Warehouse::class);
-    }
-
-    public function receiver(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'received_by');
+        return $this->belongsTo(User::class, 'inspected_by');
     }
 
     public function approver(): BelongsTo
@@ -68,34 +59,29 @@ class GoodsReceipt extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(GoodsReceiptItem::class);
-    }
-
-    public function qualityInspections(): HasMany
-    {
-        return $this->hasMany(QualityInspection::class);
+        return $this->hasMany(QualityInspectionItem::class);
     }
 
     public function onApprovalSubmitted(): void
     {
-        $this->update(['status' => DocumentStatus::SUBMITTED]);
+        $this->update(['status' => QcStatus::PENDING]);
     }
 
     public function onApprovalApproved(): void
     {
         $this->update([
-            'status' => DocumentStatus::APPROVED,
+            'status' => $this->items()->where('failed_qty', '>', 0)->exists()
+                ? QcStatus::PARTIALLY_PASSED
+                : QcStatus::PASSED,
             'approved_by' => Auth::id(),
-            'approved_at' => now(),
         ]);
     }
 
     public function onApprovalRejected(): void
     {
         $this->update([
-            'status' => DocumentStatus::REJECTED,
+            'status' => QcStatus::FAILED,
             'approved_by' => null,
-            'approved_at' => null,
         ]);
     }
 
@@ -105,6 +91,6 @@ class GoodsReceipt extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->useLogName('goods_receipt');
+            ->useLogName('quality_inspection');
     }
 }
