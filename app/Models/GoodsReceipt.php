@@ -76,6 +76,11 @@ class GoodsReceipt extends Model
         return $this->hasMany(QualityInspection::class);
     }
 
+    public function putawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class);
+    }
+
     public function onApprovalSubmitted(): void
     {
         $this->update(['status' => DocumentStatus::SUBMITTED]);

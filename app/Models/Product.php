@@ -106,6 +106,11 @@ class Product extends Model
         return $this->hasMany(QualityInspectionItem::class);
     }
 
+    public function putawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class);
+    }
+
     public function lots(): HasMany
     {
         return $this->hasMany(Lot::class);

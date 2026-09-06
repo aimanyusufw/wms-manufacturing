@@ -80,4 +80,14 @@ class Location extends Model
             'parent_id'
         );
     }
+
+    public function sourcePutawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class, 'source_bin_id');
+    }
+
+    public function destinationPutawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class, 'destination_bin_id');
+    }
 }
