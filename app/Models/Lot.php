@@ -45,4 +45,9 @@ class Lot extends Model
     {
         return $this->hasMany(QualityInspectionItem::class);
     }
+
+    public function putawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class);
+    }
 }

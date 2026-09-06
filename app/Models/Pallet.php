@@ -30,4 +30,9 @@ class Pallet extends Model
     {
         return $this->hasMany(GoodsReceiptItem::class);
     }
+
+    public function putawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class);
+    }
 }

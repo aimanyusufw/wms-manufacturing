@@ -44,6 +44,16 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(QualityInspection::class, 'approved_by');
     }
 
+    public function assignedPutawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class, 'assigned_to');
+    }
+
+    public function completedPutawayTasks(): HasMany
+    {
+        return $this->hasMany(PutawayTask::class, 'completed_by');
+    }
+
     #[Override]
     public function canAccessPanel(Panel $panel): bool
     {
