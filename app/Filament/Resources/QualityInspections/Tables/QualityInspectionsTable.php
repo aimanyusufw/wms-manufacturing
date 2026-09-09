@@ -26,7 +26,7 @@ class QualityInspectionsTable
                     ->label('Goods receipt')
                     ->searchable()
                     ->placeholder('-'),
-                TextColumn::make('productionReceipt.id')
+                TextColumn::make('productionReceipt.document_number')
                     ->label('Production receipt')
                     ->placeholder('-'),
                 TextColumn::make('inspection_date')

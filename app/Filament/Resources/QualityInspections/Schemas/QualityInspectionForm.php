@@ -38,10 +38,26 @@ class QualityInspectionForm
                         Select::make('goods_receipt_id')
                             ->label('Goods receipt')
                             ->relationship('goodsReceipt', 'document_number')
-                            ->searchable()
-                            ->preload()
+                            ->nullable()
                             ->live()
-                            ->required(),
+                            ->preload()
+                            ->disabled(fn(Get $get): bool => filled($get('production_recipt_id')))
+                            ->requiredWithout('production_recipt_id')
+                            ->helperText(fn(Get $get) => filled($get('production_recipt_id'))
+                                ? 'Disabled because Production Receipt is selected.'
+                                : 'Select if inspection originates from GRN.'),
+
+                        Select::make('production_recipt_id')
+                            ->label('Production Receipt')
+                            ->relationship('productionReceipt', 'document_number')
+                            ->nullable()
+                            ->live()
+                            ->preload()
+                            ->disabled(fn(Get $get): bool => filled($get('goods_receipt_id')))
+                            ->requiredWithout('goods_receipt_id')
+                            ->helperText(fn(Get $get) => filled($get('goods_receipt_id'))
+                                ? 'Disabled because GRN Receipt is selected.'
+                                : 'Select if inspection originates from Production Output.'),
                         Select::make('status')
                             ->options(QcStatus::class)
                             ->default(QcStatus::PENDING)

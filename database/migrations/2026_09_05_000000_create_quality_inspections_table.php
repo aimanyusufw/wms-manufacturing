@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('quality_inspections', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('goods_receipt_id')->nullable()->constrained('goods_receipts')->nullOnDelete();
-            $table->foreignId('production_receipt_id')->nullable();
+            $table->foreignId('production_receipt_id')->nullable()->constrained('productions_receipts')->nullOnDelete();
             $table->string('inspection_number', 100)->unique();
             $table->timestamp('inspection_date');
             $table->enum('status', array_column(QcStatus::cases(), 'value'))
