@@ -58,9 +58,7 @@ class ProductionReceiptsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                //
             ])
             ->defaultSort('receipt_date', 'desc');
     }

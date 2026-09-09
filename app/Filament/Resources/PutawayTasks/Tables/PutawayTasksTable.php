@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PutawayTasks\Tables;
 
 use App\Enums\DocumentStatus;
+use App\Enums\PutawayStatus;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -53,7 +54,7 @@ class PutawayTasksTable
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->options(DocumentStatus::class),
+                    ->options(PutawayStatus::class),
                 SelectFilter::make('assigned_to')
                     ->label('Assignee')
                     ->relationship('assignee', 'name')
